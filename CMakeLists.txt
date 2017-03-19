@@ -30,8 +30,6 @@ set(SIO_INCLUDEDIR ${CMAKE_CURRENT_LIST_DIR})
 add_library(sioclient ${ALL_SRC})
 target_include_directories(sioclient PRIVATE ${Boost_INCLUDE_DIRS} 
     ${CMAKE_CURRENT_LIST_DIR}/src 
-    ${CMAKE_CURRENT_LIST_DIR}/lib/websocketpp 
-    ${CMAKE_CURRENT_LIST_DIR}/lib/rapidjson/include
 )
 
 if (CMAKE_VERSION VERSION_GREATER "3.1")
@@ -55,8 +53,6 @@ if(OPENSSL_FOUND)
 add_library(sioclient_tls ${ALL_SRC})
 target_include_directories(sioclient_tls PRIVATE ${Boost_INCLUDE_DIRS} 
     ${CMAKE_CURRENT_LIST_DIR}/src 
-    ${CMAKE_CURRENT_LIST_DIR}/lib/websocketpp 
-    ${CMAKE_CURRENT_LIST_DIR}/lib/rapidjson/include
     ${OPENSSL_INCLUDE_DIR}
 )
 
@@ -83,6 +79,11 @@ endif()
 find_path(WEBSOCKETPP websocketpp/client.hpp)
 if (NOT WEBSOCKETPP)
 	message(FATAL_ERROR "websocketpp not found. Install it first.")
+endif()
+
+find_path(RAPIDJSON rapidjson/rapidjson.h)
+if (NOT RAPIDJSON)
+	message(FATAL_ERROR "rapidjson not found. Install it first.")
 endif()
 
 install(FILES ${ALL_HEADERS} 
